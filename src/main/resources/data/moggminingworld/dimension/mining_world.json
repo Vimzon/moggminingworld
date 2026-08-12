@@ -2,7 +2,7 @@
   "type": "moggminingworld:mining_world",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "minecraft:caves",
+    "settings": "moggminingworld:caves",
     "biome_source": {
       "type": "minecraft:fixed",
       "biome": "moggminingworld:mining_world"
