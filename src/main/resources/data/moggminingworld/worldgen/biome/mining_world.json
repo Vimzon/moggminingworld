@@ -19,7 +19,9 @@
     "misc": []
   },
   "spawn_costs": {},
-  "carvers": [],
+  "carvers": {
+    "air": []
+  },
   "features": [
     [
       "moggminingworld:top_bedrock",
