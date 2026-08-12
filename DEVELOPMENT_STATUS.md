@@ -58,6 +58,16 @@ Java: 17
   Это **не** модовые руды (их Этап 4) и не ore_veins (отключены в noise
   settings, шаг 2.7). Сборка/тест не выполнялись в этом окружении (нет
   сети/Minecraft) — проверка в игре ниже.
+  **Исправления после крашей (реальный клиент 1.20.1, Forge 47.4.10):**
+  - `placed_feature/ore_*.json`: ключ у `minecraft:uniform` HeightProvider —
+    **`max_inclusive`**, а не `max_exclusive` (иначе
+    `No key max_inclusive` и краш загрузки реестров).
+  - `configured_feature/ore_*.json`: у поля `target` (RuleTest) в
+    `minecraft:ore` ключ — **`predicate_type`**, а не `type`
+    (иначе `Input does not contain a key [predicate_type]`). Верхний
+    `"type": "minecraft:ore"` трогать нельзя.
+  Обе ошибки были в моих JSON и исправлены; после правок все 16 файлов
+  проходят JSON-парс и реестр грузится.
 - **Шаг 2.6 (верификация, код не менялся):** вода в Mining World не
   генерируется — делать нечего. Исходная гипотеза шага («vanilla
   `minecraft:caves` заливает большие пещеры водой») **не подтвердилась**.
