@@ -1,5 +1,9 @@
 package com.mogg.miningworld;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,17 +11,25 @@ import org.apache.logging.log4j.Logger;
 /**
  * Mogg Mining World - main mod entry point.
  *
- * Stage 0: project skeleton only.
- * No dimension, no teleportation, no ore generation yet.
- * Those are added in later stages per DEVELOPMENT_STATUS.md.
+ * Stage 1: registers the Mining World dimension (via datapack JSON under
+ * src/main/resources/data/moggminingworld/dimension and dimension_type).
+ * Generation is still a simple flat placeholder - real cave generation is
+ * Stage 2. No teleport block yet - that is Stage 6.
  */
 @Mod(MoggMiningWorld.MOD_ID)
 public class MoggMiningWorld {
 
     public static final String MOD_ID = "moggminingworld";
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
+
+    /**
+     * Resource key identifying the Mining World dimension.
+     * Backed by data/moggminingworld/dimension/mining_world.json
+     */
+    public static final ResourceKey<Level> MINING_WORLD_KEY =
+            ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MOD_ID, "mining_world"));
 
     public MoggMiningWorld() {
-        LOGGER.info("Mogg Mining World is loading (Stage 0 - project skeleton, no gameplay features yet)");
+        LOGGER.info("Mogg Mining World is loading (Stage 1 - dimension registration)");
     }
 }
