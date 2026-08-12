@@ -21,7 +21,9 @@
   "spawn_costs": {},
   "carvers": [],
   "features": [
-    [],
+    [
+      "moggminingworld:top_bedrock"
+    ],
     [],
     [],
     [],
