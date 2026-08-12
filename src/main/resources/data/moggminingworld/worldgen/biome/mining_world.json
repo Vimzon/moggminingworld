@@ -33,7 +33,16 @@
     [],
     [],
     [],
-    [],
+    [
+      "moggminingworld:ore_coal",
+      "moggminingworld:ore_copper",
+      "moggminingworld:ore_iron",
+      "moggminingworld:ore_gold",
+      "moggminingworld:ore_redstone",
+      "moggminingworld:ore_lapis",
+      "moggminingworld:ore_diamond",
+      "moggminingworld:ore_emerald"
+    ],
     [],
     [],
     []
