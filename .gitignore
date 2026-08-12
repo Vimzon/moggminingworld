@@ -1,0 +1,27 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# Forge run/test directories
+run/
+runs/
+logs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.eclipse/
+bin/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Gradle wrapper distribution cache (not the wrapper files themselves)
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties

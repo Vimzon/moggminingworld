@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+issueTrackerURL="https://github.com/YOUR_GITHUB_USERNAME/moggminingworld/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="Mogg Mining World"
+authors="Mogg"
+description='''Adds a separate Mining World dimension intended purely for ore mining.
+Stage 0: project skeleton only, no gameplay features yet.'''
+
+[[dependencies.moggminingworld]]
+    modId="forge"
+    mandatory=true
+    versionRange="[${forge_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.moggminingworld]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
