@@ -216,10 +216,10 @@ public class DynamicOreFeature extends Feature<DynamicOreConfig> {
     }
 
     private enum OreTier {
-        COMMON(0, 320, 14, 3),
-        MID(0, 256, 12, 2),
-        DEEP(0, 192, 10, 2),
-        BOTTOM(0, 128, 8, 2);
+        COMMON(0, 320, 16, 3),
+        MID(0, 256, 14, 2),
+        DEEP(0, 192, 12, 2),
+        BOTTOM(0, 128, 10, 2);
 
         final int minY;
         final int maxY;
