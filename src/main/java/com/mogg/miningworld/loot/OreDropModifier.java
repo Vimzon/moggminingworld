@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -59,7 +60,7 @@ public class OreDropModifier extends LootModifier {
                 || context.getLevel().dimension() != MoggMiningWorld.MINING_WORLD_KEY) {
             return generatedLoot;
         }
-        if (!context.hasParam(LootContextParams.THIS_ENTITY)) {
+        if (!(context.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof Mob)) {
             return generatedLoot;
         }
         if (context.getRandom().nextDouble() > MiningWorldConfig.mobOreDropChance()) {

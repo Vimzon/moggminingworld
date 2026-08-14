@@ -9,7 +9,7 @@ version="${mod_version}"
 displayName="Mogg Mining World"
 authors="Mogg"
 description='''Adds a separate Mining World dimension intended purely for ore mining.
-Stage 10: cave mobs drop ores, depth fog, no day cycle; TOML config; WorldEdit-compatible dimension; works with DimWorldBorder.'''
+Stage 11: bottom bedrock hidden under stone; cave mobs drop ores, depth fog, no day cycle; TOML config; WorldEdit-compatible; works with DimWorldBorder.'''
 
 [[dependencies.moggminingworld]]
     modId="forge"

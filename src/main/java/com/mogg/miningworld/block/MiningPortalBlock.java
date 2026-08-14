@@ -52,20 +52,44 @@ public class MiningPortalBlock extends Block {
     }
 
     /**
-     * Finds a safe spawn spot near (x, y, z): scans a vertical column down
-     * from the given height and picks the first position with a solid block
-     * below and at least two air blocks above (so the player doesn't
-     * suffocate or fall into the void).
+     * Finds a safe spawn spot near (x, y, z): scans the column for a spot with
+     * a solid block below and at least two air blocks above (so the player
+     * doesn't suffocate or fall into the void). If the target column has no
+     * such spot (e.g. fully solid stone), spirals outward and scans nearby
+     * columns. Never teleports the player inside a solid block.
      */
     private static Vec3 findSafeSpawn(ServerLevel level, int x, int y, int z) {
+        int minY = level.getMinBuildHeight() + 2;
+        int maxY = level.getMaxBuildHeight() - 2;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        for (int dy = y; dy > level.getMinBuildHeight() + 3; dy--) {
-            pos.set(x, dy, z);
+
+        Vec3 spot = scanColumn(level, pos, x, z, maxY, minY);
+        if (spot != null) {
+            return spot;
+        }
+        for (int radius = 1; radius <= 32; radius++) {
+            for (int dx = -radius; dx <= radius; dx++) {
+                for (int dz = -radius; dz <= radius; dz++) {
+                    if (Math.max(Math.abs(dx), Math.abs(dz)) != radius) {
+                        continue;
+                    }
+                    spot = scanColumn(level, pos, x + dx, z + dz, maxY, minY);
+                    if (spot != null) {
+                        return spot;
+                    }
+                }
+            }
+        }
+        return new Vec3(x + 0.5, y + 0.5, z + 0.5);
+    }
+
+    private static Vec3 scanColumn(ServerLevel level, BlockPos.MutableBlockPos pos, int x, int z, int startY, int endY) {
+        for (int yy = startY; yy >= endY; yy--) {
+            pos.set(x, yy, z);
             if (level.isEmptyBlock(pos) && level.isEmptyBlock(pos.above()) && level.getBlockState(pos.below()).isSolid()) {
                 return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
             }
         }
-        // Fallback: if nothing found, teleport to world spawn height of the dimension.
-        return new Vec3(x + 0.5, y + 0.5, z + 0.5);
+        return null;
     }
 }

@@ -68,8 +68,7 @@
   },
   "features": [
     [
-      "moggminingworld:top_bedrock",
-      "moggminingworld:bottom_bedrock"
+      "moggminingworld:top_bedrock"
     ],
     [],
     [],
