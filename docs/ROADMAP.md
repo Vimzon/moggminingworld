@@ -28,18 +28,25 @@
 
 ## Этап 4 — Структуры, данжи и баланс руд (как в верхнем мире) ✅
 - **Данжи**: заброшенные шахты (`minecraft:mineshaft`, свои `structure` +
-  `structure_set`, spacing 24 / separation 8) и пещерные комнаты монстров
-  (`minecraft:monster_room`, spacing 32 / separation 12) — обе генерируются
-  из кода, привязаны к биому `mining_world`.
+  `structure_set`, spacing 24 / separation 8) и пещерные комнаты монстров.
+  ВАЖНО: `monster_room` в 1.20.1 — это ФИЧА (`configured_feature` +
+  `placed_feature`, слот 3 биома, count 10, Y 0..64), а НЕ структура —
+  structure/structure_set для неё удалены (краш `Unknown registry key
+  ...structure_type: minecraft:monster_room`).
 - **Рудные кэши-карманы** (`cache_*`): редкие жирные жилы по зонам Y через
   `rarity_filter` — coal (0..96, chance 14, size 18), iron (0..64, chance 12,
   size 16), gold (0..32, chance 12, size 14), redstone (0..16, chance 12,
   size 14), diamond (0..16, chance 16, size 12).
 - **Декорации пещер (speleotems)**: `pointed_dripstone` + `dripstone_cluster`
-  (wetness=0, без воды) в слоте 3 фич биома.
+  (wetness=0, без воды) в слоте 3 фич биома. Поля 1.20.1 — `*_dripstone_*`
+  (не `*_speleothem_*`).
 - **Шанс руды по зонам Y**: уголь часто и везде, железо/золото в средних
   слоях, редстоун/алмазы только внизу — базовый баланс из Этапа 3 сохранён,
   кэши усиливают нижнюю зону. Плотности требуют проверки в игре.
+- **Краш-фикс**: формат структуры mineshaft в 1.20.1 — `mineshaft_type` и
+  `step` на верхнем уровне (без `config`); `count`+`uniform` в placed —
+  обёртка `value`; поля dripstone `*_dripstone_*`. Все 4 файла переписаны
+  по ванильным образцам (сверено с jar клиента).
 
 ## Этап 5 — Авто-подхват руд из других модов (ТЗ п.3) ✅
 При установке другого мода с рудами эти руды появляются в Mining World
@@ -122,6 +129,9 @@
   требуют live-теста; fallback по имени `_ore` сработает всегда.
 - Исправлен краш при старте игры (Configured/PlacedFeature через
   DeferredRegister) — см. DECISIONS.md.
+- Исправлен краш при создании мира: датапаки Этапа 4 (dripstone_* поля,
+  count+uniform value, формат структур 1.20.1, monster_room как фича) —
+  см. DECISIONS.md и Этап 4.
 - Клиентский рендер (Этап 2.5) не проверен вживую.
 - Нет входа в измерение через игровой интерфейс (портал — Этап 6).
 - gradle-wrapper.jar не в репозитории (сборка через Actions).

@@ -412,6 +412,21 @@ Java: 17
 ## Следующий шаг
 **Этап 6 — телепорт-блок.** Этапы 4–5 (структуры/данжи/баланс + авто-подхват
 руд чужих модов) реализованы, НЕ проверены в игре.
+
+**Краш-фикс 2 (14.08.2026):** после фикса DeferredRegister игра доходила до
+создания мира и падала `Failed to load registries due to above errors` из-за
+ошибок в датапаках Этапа 4 (не тестировались в игре). Исправлено по
+ванильным образцам 1.20.1 (сверено с jar клиента):
+- `dripstone_cluster` — поля `*_dripstone_*` вместо `*_speleothem_*`;
+- `pointed_dripstone` (placed) — `count`+`uniform` с обёрткой `value`;
+- `mineshaft` (structure) — `mineshaft_type`+`step` на верхнем уровне,
+  без `config`;
+- `monster_room` — это ФИЧА в 1.20.1, не структура: удалены
+  structure+structure_set, добавлены configured+placed фичи + слот 3 биома.
+- Версия в `build.gradle` захардкожена `0.4.0-stage3` → исправлена на
+  `0.4.0-stage5` (имя jar снова совпадает с gradle.properties).
+- `gradle build --offline` — BUILD SUCCESSFUL, все JSON валидны.
+
 Что добавлено в Этапе 5 (Java, единственный код генерации):
 - `worldgen/DynamicOreFeature.java` — сканирует реестр блоков (id на `_ore`
   или тег `forge:ores`, исключая `minecraft:*`), stone/deepslate по имени,

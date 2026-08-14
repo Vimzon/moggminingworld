@@ -116,3 +116,17 @@ Do not: не добавлять неровный край до этапа пол
 - `carvers` в биоме — объект `{"air": [...], "liquid": [...]}`, НЕ массив.
 - RuleTest использует `predicate_type`, а не `type`.
 - HeightProvider `uniform` — `max_inclusive`, не `max_exclusive`.
+- `minecraft:count` + `minecraft:uniform` IntProvider — обёртка `value`
+  (`"count": {"type": "minecraft:uniform", "value": {"min_inclusive": ..,
+  "max_inclusive": ..}}`).
+- Структуры 1.20.1: поля `step` и спец-поля типа `mineshaft_type` — на
+  верхнем уровне (не в `config`); `config`/`probability` у mineshaft не
+  нужны.
+- `monster_room` (данж со спавнером) — в 1.20.1 это ФИЧА
+  (`worldgen/configured_feature/monster_room.json` + placed), а НЕ структура;
+  `structure_type: minecraft:monster_room` не существует.
+- Поля dripstone_cluster в 1.20.1 — `*_dripstone_column_*`
+  (`chance_of_dripstone_column_at_max_distance_from_center`,
+  `dripstone_block_layer_thickness`,
+  `max_distance_from_edge_affecting_chance_of_dripstone_column`), а не
+  `*_speleothem_*` (старое имя 1.19).

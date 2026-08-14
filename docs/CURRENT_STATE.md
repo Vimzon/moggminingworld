@@ -36,6 +36,29 @@ Updated: 2026-08-14
 - Багфиксы (Этап 3): `carvers` объект, `predicate_type` в RuleTest,
   `max_inclusive` в HeightProvider.
 
+## Crash fix 2 (2026-08-14) — краш при создании мира: датапаки Этапа 4
+- **Симптом**: игра доходила до создания мира и падала
+  `Failed to load registries due to above errors` (RegistryDataLoader).
+- **Причина**: ошибки в датапаках Этапа 4 (не тестировались в игре):
+  1. `dripstone_cluster` — в 1.20.1 поля называются `*_dripstone_column_*`
+     и `dripstone_block_layer_thickness`, а не `*_speleothem_*`;
+  2. `pointed_dripstone` (placed) — формат `minecraft:count` + `uniform`
+     требует обёртку `value`;
+  3. `mineshaft` структура — неверный формат: в 1.20.1 у структуры поля
+     `mineshaft_type` и `step` на верхнем уровне, без `config`/`probability`;
+  4. `monster_room` — в 1.20.1 это НЕ структура (`Unknown registry key
+     ...structure_type: minecraft:monster_room`), а обычная фича:
+     `configured_feature/monster_room.json` (`minecraft:monster_room`) +
+     `placed_feature/monster_room.json` + слот 3 биома. Удалены
+     `structure/monster_room.json` и `structure_set/monster_rooms.json`.
+- **Фикс**: переписал все 4 файла по ванильным образцам 1.20.1
+  (сверено с jar клиента), удалил структуру/структур-сет monster_room,
+  добавил фичу monster_room в слот 3 биома.
+- Также: версия в `build.gradle` была захардкожена `0.4.0-stage3` (хотя
+  gradle.properties уже stage5) — это вводило в заблуждение по имени jar.
+  Исправлено на `0.4.0-stage5`.
+- Проверено: `gradle build --offline` — BUILD SUCCESSFUL, все JSON валидны.
+
 ## Crash fix (2026-08-14) — краш при старте игры после обновления мода
 - **Симптом**: игра падала с `java.lang.RuntimeException: null` →
   `Failed to apply some object holders` →

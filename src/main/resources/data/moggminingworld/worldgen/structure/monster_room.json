@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:monster_room",
-  "config": {},
-  "biomes": [
-    "moggminingworld:mining_world"
-  ],
-  "spawn_overrides": {}
-}
