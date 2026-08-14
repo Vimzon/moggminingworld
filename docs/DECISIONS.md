@@ -130,3 +130,16 @@ Do not: не добавлять неровный край до этапа пол
   `dripstone_block_layer_thickness`,
   `max_distance_from_edge_affecting_chance_of_dripstone_column`), а не
   `*_speleothem_*` (старое имя 1.19).
+
+## Генерация «закрытого» пещерного измерения (фикс 2026-08-14)
+- **Проблема**: `final_density` как клон OVERWORLD пресета строит РЕЛЬЕФ с
+  поверхностью (cheese-террейн). В Mining World это давало «равнину» + небо +
+  бедрок под ней (высота поверхности зависела от сида).
+- **Решение**: `final_density` по образцу пресета `minecraft:caves`/nether —
+  `squeeze(0.64 * interpolated(blend_density(add(2.5, mul(y_clamped_gradient
+  (0..32, 0→1), add(-2.5, add(0.9375, mul(y_clamped_gradient(288..312, 1→0),
+  add(-0.9375, base_3d_noise)))))))))` + min с `overworld/caves/noodle`.
+  Нижний градиент — сплошной пол, верхний — сплошной потолок, между —
+  пещеры. Бедрок-пол/потолок — через `surface_rule` (bedrock_floor/roof).
+- **Do not**: НЕ возвращать в `final_density` террейн-функции overworld
+  (continents/depth/erosion/sloped_cheese), пока цель — закрытое измерение.

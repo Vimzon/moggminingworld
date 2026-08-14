@@ -413,6 +413,15 @@ Java: 17
 **Этап 6 — телепорт-блок.** Этапы 4–5 (структуры/данжи/баланс + авто-подхват
 руд чужих модов) реализованы, НЕ проверены в игре.
 
+**Live-фикс 3 (14.08.2026):** при ТП в Mining World игрок видел «равнину» +
+небо + бедрок под ней вместо закрытых пещер. Причина: `caves.json` был
+клоном OVERWORLD пресета — `final_density` строил рельеф с поверхностью.
+`final_density` переписан по образцу `minecraft:caves`/nether: сплошной
+камень + пещеры (`nether/base_3d_noise` + `overworld/caves/noodle`),
+бедрок-пол/потолок через `surface_rule`, deepslate внизу. Мин/высота
+согласованы (0..320). `gradle build --offline` — BUILD SUCCESSFUL.
+Сборка: `build\libs\moggminingworld-0.4.0-stage5.jar`.
+
 **Краш-фикс 2 (14.08.2026):** после фикса DeferredRegister игра доходила до
 создания мира и падала `Failed to load registries due to above errors` из-за
 ошибок в датапаках Этапа 4 (не тестировались в игре). Исправлено по

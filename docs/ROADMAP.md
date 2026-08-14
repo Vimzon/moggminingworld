@@ -18,6 +18,10 @@
 - Свой биом `mining_world` (пустой, без мобов/декораций по умолчанию).
 - Свой noise-settings `caves`: `sea_level: 0`, `aquifers_enabled: false`,
   `ore_veins_enabled: false` → только камень, вода/лава невозможны.
+- **Фикс 2026-08-14**: `final_density` переписан по образцу `minecraft:caves`
+  (сплошной камень + пещеры `base_3d_noise`/`noodle`, бедрок-пол/потолок
+  через surface_rule) вместо клона overworld — раньше строился рельеф
+  с поверхностью («равнина» + небо).
 - Bedrock-потолок (Y=319) и bedrock-пол (Y=0) через `fill_layer`.
 - Клиентский рендер `MiningWorldEffects`: нет неба/облаков/солнца/луны.
 
