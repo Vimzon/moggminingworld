@@ -33,8 +33,7 @@ public class MoggMiningWorld {
 
     public MoggMiningWorld() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-        com.mogg.miningworld.worldgen.ModWorldGen.CONFIGURED_FEATURES.register(modBus);
-        com.mogg.miningworld.worldgen.ModWorldGen.PLACED_FEATURES.register(modBus);
+        com.mogg.miningworld.worldgen.ModWorldGen.FEATURES.register(modBus);
         LOGGER.info("Mogg Mining World is loading (Stage 1 - dimension registration)");
     }
 }

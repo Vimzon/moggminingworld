@@ -3,6 +3,19 @@
 Зафиксированные архитектурные решения. Смена любого из них — только через
 отдельное обсуждение (запись даты + причины + «do not»).
 
+## 2026-08-14 — Configured/PlacedFeature НЕ регистрировать через DeferredRegister
+Decision: Java-код регистрирует только сам `Feature` (`Registries.FEATURE`,
+`moggminingworld:dynamic_ore`), а configured/placed фичи объявляются в
+датапаке (`worldgen/configured_feature/dynamic_modded_ores.json` +
+`worldgen/placed_feature/dynamic_modded_ores.json`, rarity 1/24, Y 0..120).
+Reason: краш при старте игры — `Unable to find registry with key
+minecraft:worldgen/placed_feature` из `DeferredRegister.register()`
+(ModWorldGen.<clinit>). ConfiguredFeature/PlacedFeature — datapack-реестры,
+которые создаются только при загрузке датапаков, поэтому на этапе
+регистрации мода их нет, и `RegistryObject` падает.
+Do not: не возвращать DeferredRegister для `Registries.CONFIGURED_FEATURE` /
+`Registries.PLACED_FEATURE`; Java-фичи всегда объявлять через датапак.
+
 ## 2026-08-14 — Авто-подхват руд из других модов (Этап 5, ТЗ п.3) ✅
 Decision: руды других модов автоматически появляются в Mining World:
 - Java `DynamicOreFeature` сканирует реестр блоков при первой генерации

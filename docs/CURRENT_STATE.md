@@ -1,7 +1,7 @@
 # CURRENT STATE — Mogg Mining World
 
 Updated: 2026-08-14
-Версия: 0.4.0-stage4 | Minecraft 1.20.1 | Forge 47.2.0 | Java 17
+Версия: 0.4.0-stage5 | Minecraft 1.20.1 | Forge 47.2.0 | Java 17
 
 ## Current Task
 **Этап 5 — авто-подхват руд из других модов (ТЗ п.3)** реализован (Java).
@@ -28,13 +28,28 @@ Updated: 2026-08-14
   - `DynamicOreFeature.java` — сканирует реестр блоков (id на `_ore` или
     тег `forge:ores`, исключая `minecraft:*`), stone/deepslate варианты по
     имени, тиры глубины COMMON/MID/DEEP/BOTTOM, ванильный blob-алгоритм;
-  - `DynamicOreConfig.java` + `ModWorldGen.java` (configured/placed
-    `dynamic_modded_ores`, rarity 1/24, Y 0..120);
+  - `DynamicOreConfig.java` + `ModWorldGen.java` (DeferredRegister только
+    самого `Feature` `dynamic_ore`; configured/placed — в датапаке);
   - `forge/biome_modifier/modded_ores.json` (`forge:add_features`, step
     `underground_ores`) → биом `mining_world`;
-  - `gradle compileJava --offline` + `processResources` — BUILD SUCCESSFUL.
+  - `gradle build --offline` — BUILD SUCCESSFUL (после фикса краша).
 - Багфиксы (Этап 3): `carvers` объект, `predicate_type` в RuleTest,
   `max_inclusive` в HeightProvider.
+
+## Crash fix (2026-08-14) — краш при старте игры после обновления мода
+- **Симптом**: игра падала с `java.lang.RuntimeException: null` →
+  `Failed to apply some object holders` →
+  `Unable to find registry with key minecraft:worldgen/placed_feature` из
+  `ModWorldGen.<clinit>` (DeferredRegister.register).
+- **Причина**: `ConfiguredFeature`/`PlacedFeature` — datapack-реестры
+  (создаются при загрузке датапаков), их НЕЛЬЗЯ регистрировать через
+  `DeferredRegister` на этапе регистрации мода.
+- **Фикс**: `ModWorldGen` теперь регистрирует только сам `Feature`
+  (`Registries.FEATURE`, `moggminingworld:dynamic_ore`), а configured/placed
+  фичи объявлены в датапаке:
+  `worldgen/configured_feature/dynamic_modded_ores.json` +
+  `worldgen/placed_feature/dynamic_modded_ores.json`.
+- Подробности — в `docs/DECISIONS.md`.
 
 ## Real Test Feedback (2026-08-14, от пользователя)
 - Пещеры без воды — ✅ работает, выглядит хорошо.

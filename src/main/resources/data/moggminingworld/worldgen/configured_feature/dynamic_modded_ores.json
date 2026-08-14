@@ -1,0 +1,7 @@
+{
+  "type": "moggminingworld:dynamic_ore",
+  "config": {
+    "min_y": 0,
+    "max_y": 120
+  }
+}

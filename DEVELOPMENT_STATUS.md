@@ -418,10 +418,18 @@ Java: 17
   тиры COMMON(0..120)/MID(0..64)/DEEP(0..48)/BOTTOM(0..24), blob-алгоритм
   ванильного `minecraft:ore`, size 5..10;
 - `worldgen/DynamicOreConfig.java` + `worldgen/ModWorldGen.java` —
-  configured/placed `dynamic_modded_ores` (rarity 1/24, Y 0..120);
+  DeferredRegister регистрирует ТОЛЬКО сам `Feature` (`dynamic_ore`);
+  configured/placed `dynamic_modded_ores` — в датапаке
+  (`worldgen/configured_feature/` + `worldgen/placed_feature/`, rarity 1/24,
+  Y 0..120);
 - `data/moggminingworld/forge/biome_modifier/modded_ores.json` —
   `forge:add_features`, step `underground_ores`, биом `mining_world`.
-- `gradle compileJava --offline` + `processResources` — BUILD SUCCESSFUL.
+- **Краш-фикс (14.08.2026):** первый вариант регистрировал
+  ConfiguredFeature/PlacedFeature через DeferredRegister — при старте игры
+  краш `Unable to find registry with key minecraft:worldgen/placed_feature`
+  (datapack-реестры недоступны на этапе регистрации мода). Исправлено
+  переносом configured/placed в датапаки (см. DECISIONS.md).
+- `gradle build --offline` — BUILD SUCCESSFUL (после фикса краша).
 Порядок: проверить Этапы 4–5 в игре (удалить `world/dimensions/moggminingworld`,
 поставить второй мод с рудами, зайти через
 `/execute in moggminingworld:mining_world run tp @s 0 60 0`), подправить

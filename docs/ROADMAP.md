@@ -57,15 +57,21 @@
     MID (0..64), DEEP (0..48), BOTTOM (0..24); каждая жила — ванильный
     blob-алгоритм `minecraft:ore`, size 5..10.
 - `DynamicOreConfig.java` — конфиг фичи (minY/maxY, codec).
-- `ModWorldGen.java` — DeferredRegister: configured `dynamic_modded_ores` +
-  placed (rarity 1/24 на чанк, in_square, Y 0..120, biome filter).
+- `ModWorldGen.java` — DeferredRegister регистрирует ТОЛЬКО сам Java-Feature
+  `dynamic_ore` (реестр `minecraft:worldgen/feature`); configured/placed
+  фичи объявлены в датапаке (`dynamic_modded_ores.json`: rarity 1/24 на
+  чанк, in_square, Y 0..120, biome filter). Configured/PlacedFeature —
+  datapack-реестры, их НЕЛЬЗЯ регистрировать через DeferredRegister
+  (краш «Unable to find registry with key minecraft:worldgen/placed_feature»
+  — см. DECISIONS).
 - `forge/biome_modifier/modded_ores.json` (`forge:add_features`, step
   `underground_ores`) — добавляет фичу в биом `mining_world`.
 - **Живой подхват**: добавлен мод → перезагрузка сервера → руды
   появляются; чанки Mining World пересоздать (вайп) обязательно.
-- **Проверено**: `gradle compileJava --offline` + `processResources` — OK,
-  все JSON валидны. Рантайм/частота жил НЕ проверены в игре (rarity 24,
-  размеры жил 5..10 — по формулам, ждут live-теста).
+- **Проверено**: `gradle build --offline` — BUILD SUCCESSFUL, все JSON
+  валидны. Краш при старте игры исправлен (см. DECISIONS). Рантайм/частота
+  жил НЕ проверены в игре (rarity 24, размеры жил 5..10 — по формулам,
+  ждут live-теста).
 
 ## Этап 6 — Телепорт-блок
 - `MiningPortalBlock`: ПКМ → телепорт в Mining World. Ставится только в
@@ -114,6 +120,8 @@
 - Этап 5 (динамические руды чужих модов) компилируется, но не проверен в
   игре: частота жил (rarity 24), распределение тиров и чтение `forge:ores`
   требуют live-теста; fallback по имени `_ore` сработает всегда.
+- Исправлен краш при старте игры (Configured/PlacedFeature через
+  DeferredRegister) — см. DECISIONS.md.
 - Клиентский рендер (Этап 2.5) не проверен вживую.
 - Нет входа в измерение через игровой интерфейс (портал — Этап 6).
 - gradle-wrapper.jar не в репозитории (сборка через Actions).
