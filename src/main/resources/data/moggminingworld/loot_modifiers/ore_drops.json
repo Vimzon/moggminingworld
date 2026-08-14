@@ -1,0 +1,16 @@
+{
+  "type": "moggminingworld:ore_drops",
+  "conditions": [],
+  "ore_pool": [
+    "minecraft:coal",
+    "minecraft:coal",
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:gold_ingot",
+    "minecraft:copper_ingot",
+    "minecraft:redstone",
+    "minecraft:lapis_lazuli",
+    "minecraft:diamond",
+    "minecraft:emerald"
+  ]
+}

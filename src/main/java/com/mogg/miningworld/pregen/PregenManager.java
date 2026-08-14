@@ -1,6 +1,7 @@
 package com.mogg.miningworld.pregen;
 
 import com.mogg.miningworld.MoggMiningWorld;
+import com.mogg.miningworld.config.MiningWorldConfig;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.ChunkStatus;
@@ -16,10 +17,10 @@ import java.util.Deque;
  * the whole limited area is fully generated ahead of time (works together
  * with DimWorldBorder: admin sets the border via /dimworldborder, then
  * pre-generates the area inside it).
+ *
+ * Stage 9: chunks per tick comes from the config (pregen.chunks_per_tick).
  */
 public class PregenManager {
-
-    private static final int CHUNKS_PER_TICK = 8;
 
     private static final Deque<ChunkPos> QUEUE = new ArrayDeque<>();
     private static ServerLevel miningWorld;
@@ -78,7 +79,8 @@ public class PregenManager {
         if (!running || miningWorld == null) {
             return;
         }
-        for (int i = 0; i < CHUNKS_PER_TICK && !QUEUE.isEmpty(); i++) {
+        int chunksPerTick = MiningWorldConfig.pregenChunksPerTick();
+        for (int i = 0; i < chunksPerTick && !QUEUE.isEmpty(); i++) {
             ChunkPos pos = QUEUE.poll();
             miningWorld.getChunk(pos.x, pos.z, ChunkStatus.FULL, true);
             generatedChunks++;

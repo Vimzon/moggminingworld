@@ -1,6 +1,7 @@
 package com.mogg.miningworld.worldgen;
 
 import com.mogg.miningworld.MoggMiningWorld;
+import com.mogg.miningworld.config.MiningWorldConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -103,10 +104,16 @@ public class DynamicOreFeature extends Feature<DynamicOreConfig> {
                     deepslate = stone;
                 }
                 OreTier tier = tierFor(name);
+                int tierIndex = tier.ordinal();
+                int minY = MiningWorldConfig.tierMinY(tierIndex);
+                int maxY = MiningWorldConfig.tierMaxY(tierIndex);
+                int size = (int) Math.round(
+                        MiningWorldConfig.tierSize(tierIndex) * MiningWorldConfig.moddedOreSizeMultiplier());
+                int weight = MiningWorldConfig.tierWeight(tierIndex);
                 result.add(new OreEntry(
                         stone.defaultBlockState(),
                         deepslate.defaultBlockState(),
-                        tier.minY, tier.maxY, tier.size, tier.weight));
+                        minY, maxY, size, weight));
             }
             LOGGER.info("[Mogg] Dynamic ore scan found {} modded ore(s): {}", result.size(),
                     result.stream().map(e -> e.stone().getBlock().getDescriptionId()).toList());
@@ -216,21 +223,9 @@ public class DynamicOreFeature extends Feature<DynamicOreConfig> {
     }
 
     private enum OreTier {
-        COMMON(0, 320, 16, 3),
-        MID(0, 256, 14, 2),
-        DEEP(0, 192, 12, 2),
-        BOTTOM(0, 128, 10, 2);
-
-        final int minY;
-        final int maxY;
-        final int size;
-        final int weight;
-
-        OreTier(int minY, int maxY, int size, int weight) {
-            this.minY = minY;
-            this.maxY = maxY;
-            this.size = size;
-            this.weight = weight;
-        }
+        COMMON,
+        MID,
+        DEEP,
+        BOTTOM
     }
 }

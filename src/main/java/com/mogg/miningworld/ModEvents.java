@@ -1,11 +1,15 @@
 package com.mogg.miningworld;
 
 import com.mogg.miningworld.command.PregenCommand;
+import com.mogg.miningworld.config.MiningWorldConfig;
 import com.mogg.miningworld.pregen.PregenManager;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,6 +21,9 @@ import net.minecraftforge.fml.common.Mod;
  *
  * Stage 7: registers the /moggminingworld pregen command and drives chunk
  * pre-generation from the server tick.
+ *
+ * Stage 9: optional "limit digging up" rule - when enabled in the config,
+ * players cannot break blocks above max_y in the Mining World.
  */
 @Mod.EventBusSubscriber(modid = MoggMiningWorld.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
@@ -46,6 +53,27 @@ public class ModEvents {
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             PregenManager.tick();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        if (!MiningWorldConfig.digLimitEnabled()) {
+            return;
+        }
+        net.minecraft.world.level.LevelAccessor levelAccessor = event.getLevel();
+        if (!(levelAccessor instanceof net.minecraft.world.level.Level level)
+                || level.dimension() != MoggMiningWorld.MINING_WORLD_KEY) {
+            return;
+        }
+        if (event.getPos().getY() > MiningWorldConfig.digLimitMaxY()) {
+            event.setCanceled(true);
+            if (event.getPlayer() != null) {
+                event.getPlayer().displayClientMessage(
+                        Component.translatable("message.moggminingworld.dig_limit",
+                                MiningWorldConfig.digLimitMaxY()).withStyle(ChatFormatting.RED),
+                        true);
+            }
         }
     }
 }

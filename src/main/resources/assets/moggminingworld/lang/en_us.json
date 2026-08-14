@@ -1,3 +1,3 @@
 {
-  "block.moggminingworld.mining_portal": "Mining Portal"
+  "message.moggminingworld.dig_limit": "You cannot dig higher than Y=%s in the Mining World!"
 }
