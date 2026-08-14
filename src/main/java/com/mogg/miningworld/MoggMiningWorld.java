@@ -4,7 +4,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +32,9 @@ public class MoggMiningWorld {
             ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MOD_ID, "mining_world"));
 
     public MoggMiningWorld() {
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        com.mogg.miningworld.worldgen.ModWorldGen.CONFIGURED_FEATURES.register(modBus);
+        com.mogg.miningworld.worldgen.ModWorldGen.PLACED_FEATURES.register(modBus);
         LOGGER.info("Mogg Mining World is loading (Stage 1 - dimension registration)");
     }
 }

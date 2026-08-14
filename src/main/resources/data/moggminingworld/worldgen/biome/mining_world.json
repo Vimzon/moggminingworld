@@ -29,7 +29,10 @@
     ],
     [],
     [],
-    [],
+    [
+      "moggminingworld:pointed_dripstone",
+      "moggminingworld:dripstone_cluster"
+    ],
     [],
     [],
     [],
@@ -43,7 +46,13 @@
       "moggminingworld:ore_diamond",
       "moggminingworld:ore_emerald"
     ],
-    [],
+    [
+      "moggminingworld:cache_coal",
+      "moggminingworld:cache_iron",
+      "moggminingworld:cache_gold",
+      "moggminingworld:cache_redstone",
+      "moggminingworld:cache_diamond"
+    ],
     [],
     []
   ]

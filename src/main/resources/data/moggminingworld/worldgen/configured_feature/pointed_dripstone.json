@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:pointed_dripstone",
+  "config": {
+    "chance_of_directional_spread": 0.6,
+    "chance_of_spread_radius2": 0.4,
+    "chance_of_spread_radius3": 0.3,
+    "chance_of_taller_dripstone": 0.2
+  }
+}
