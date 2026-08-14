@@ -86,9 +86,10 @@ Forge-мод для Minecraft 1.20.1 (Forge 47.2.x, Java 17). Добавляет
 Сборка в репозитории: GitHub Actions → Artifacts → `.jar` → папка `mods`.
 
 ## Current Priorities
-1. Live-проверка Этапов 4–6 (телепорт-блок, данжи, динамические руды).
-2. Этап 7 — интеграция с DimWorldBorder.
-3. Этап 8 — совместимость с WorldEdit.
+1. Live-проверка Этапов 4–8 (телепорт-блок, данжи, динамические руды,
+   предгенерация, WorldEdit).
+2. Этап 9 — конфигурация (TOML).
+3. Этап 10 — мобы и атмосфера.
 Полный порядок — в `docs/ROADMAP.md`.
 
 ## Important Decisions

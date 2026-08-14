@@ -9,7 +9,7 @@ version="${mod_version}"
 displayName="Mogg Mining World"
 authors="Mogg"
 description='''Adds a separate Mining World dimension intended purely for ore mining.
-Stage 7: chunk pre-generation command (works with DimWorldBorder world borders).'''
+Stage 8: WorldEdit-compatible dimension; chunk pre-generation works with DimWorldBorder.'''
 
 [[dependencies.moggminingworld]]
     modId="forge"
@@ -29,5 +29,12 @@ Stage 7: chunk pre-generation command (works with DimWorldBorder world borders).
     modId="dimensionalworldborder"
     mandatory=false
     versionRange="[1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.moggminingworld]]
+    modId="worldedit"
+    mandatory=false
+    versionRange="[7,)"
     ordering="NONE"
     side="BOTH"
