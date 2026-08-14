@@ -37,6 +37,7 @@ public class DynamicOreFeature extends Feature<DynamicOreConfig> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private List<OreEntry> cachedOres;
+    private int placementLogCounter = 0;
 
     public DynamicOreFeature() {
         super(DynamicOreConfig.CODEC);
@@ -54,7 +55,12 @@ public class DynamicOreFeature extends Feature<DynamicOreConfig> {
         int x = context.origin().getX();
         int z = context.origin().getZ();
         int y = Mth.randomBetweenInclusive(random, entry.minY(), entry.maxY());
-        return placeVein(level, random, new BlockPos(x, y, z), entry);
+        boolean placed = placeVein(level, random, new BlockPos(x, y, z), entry);
+        if (placed && (placementLogCounter++ % 100 == 0)) {
+            LOGGER.info("[Mogg] Dynamic ore vein placed: {} at ({}, {}, {}), tier y{}..{}",
+                    entry.stone().getBlock().getDescriptionId(), x, y, z, entry.minY(), entry.maxY());
+        }
+        return placed;
     }
 
     private List<OreEntry> getOres(WorldGenLevel level) {
@@ -102,6 +108,8 @@ public class DynamicOreFeature extends Feature<DynamicOreConfig> {
                         deepslate.defaultBlockState(),
                         tier.minY, tier.maxY, tier.size, tier.weight));
             }
+            LOGGER.info("[Mogg] Dynamic ore scan found {} modded ore(s): {}", result.size(),
+                    result.stream().map(e -> e.stone().getBlock().getDescriptionId()).toList());
         } catch (Exception e) {
             LOGGER.error("[Mogg] Failed to scan modded ores, skipping Stage 5 generation", e);
         }
