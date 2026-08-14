@@ -1,6 +1,6 @@
 # ROADMAP — Mogg Mining World
 
-Текущая версия: 0.4.0-stage5 (Minecraft 1.20.1, Forge 47.2.0, Java 17).
+Текущая версия: 0.4.0-stage6 (Minecraft 1.20.1, Forge 47.2.0, Java 17).
 Порядок строгий: начинать этап можно только после завершения предыдущего.
 
 > Отменённые этапы (не планировать):
@@ -84,14 +84,24 @@
   жил НЕ проверены в игре (rarity 24, размеры жил 5..10 — по формулам,
   ждут live-теста).
 
-## Этап 6 — Телепорт-блок
-- `MiningPortalBlock`: ПКМ → телепорт в Mining World. Ставится только в
-  Overworld, без крафта (получение через `/give` или админ-панель).
-  Текстура/модель блока, локализации.
-- Выход из Mining World — тем же порталом (обратная телепортация в
-  Overworld), отдельные команды возврата не планируются.
+## Этап 6 — Телепорт-блок ✅
+- `MiningPortalBlock.java`: ПКМ → телепорт в Mining World (из Overworld),
+  ПКМ в Mining World → возврат в Overworld. Поиск безопасной точки
+  (свободный блок над твёрдым) в колонне от Y=100 вниз, в каждой
+  измерике своя точка (0,100,0). `teleportTo` + `getLevel(dim)`.
+- `ModBlocks.java`: DeferredRegister блок + BlockItem. Админ-блок: strength
+  `-1`/`3600000`, без лут-таблицы, без крафта — получение `/give @s
+  moggminingworld:mining_portal`.
+- Ассеты: `blockstates/mining_portal.json`, `models/block/*`,
+  `models/item/*`, текстуры 16×16 (PNG), локализации `en_us` + `ru_ru`.
+- `MoggMiningWorld.java` регистрирует `BLOCKS`/`ITEMS`.
+- Версия поднята до `0.4.0-stage6`.
+- **Проверено**: `gradle build --offline` — BUILD SUCCESSFUL (без
+  deprecated-warning; `.noLootTable()` убран как deprecated).
+- **Не проверено в игре**: ПКМ-обработчик, безопасный поиск точки, брейк
+  в админ-режиме. Ждёт live-теста.
 
-## Этап 7 — Интеграция с DimWorldBorder
+## Этап 7 — Интеграция с DimWorldBorder ⬅️ СЛЕДУЮЩИЙ
 - Корректное чтение границ мира, отсутствие конфликтов генерации.
 
 ## Этап 8 — Совместимость с WorldEdit
