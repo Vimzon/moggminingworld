@@ -142,6 +142,12 @@ Updated: 2026-08-14
      (cave_layer + cave_cheese + spaghetti_2d + spaghetti_roughness +
      noodle) вместо `nether/base_3d_noise` — пещеры стали умеренными,
      как в обычном мире, а не гигантскими залами Незера.
+8. **Краш-фикс 2026-08-14**: после фикса пещер игра падала при загрузке
+   noise_settings «No key argument2 in MapLike[...]» — в `final_density`
+   остался вложенный `minecraft:min` без `argument2` (лишняя обёртка при
+   правке). Исправлено: убран лишний min, теперь
+   `min(min(add(cave_layer+cheese), spaghetti), noodle)` — валидно.
+   Сборка BUILD SUCCESSFUL, caves.json OK.
 
 ## Next Steps
 1. Проверить Этап 6 в игре: `/give @s moggminingworld:mining_portal`,

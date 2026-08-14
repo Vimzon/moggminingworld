@@ -163,11 +163,15 @@ Do not: не добавлять неровный край до этапа пол
 - **Проблема (live-feedback)**: `nether/base_3d_noise` в `final_density`
   создавал ОГРОМНЫЕ просторные залы («как на поверхности верхнего мира»).
 - **Решение**: `final_density` собран по ванильной пещерной схеме OVERWORLD:
-  `cave_layer` (square*4) + `cave_cheese` (clamp 0.27..) + min с
-  `spaghetti_2d` + `spaghetti_roughness_function` (внутри), внешний min с
+  `min(add(mul(4, square(cave_layer)), clamp(add(0.27, cave_cheese), -1, 1)),
+  add(spaghetti_2d, spaghetti_roughness_function))` + внешний min с
   `overworld/caves/noodle`. Градиенты пола/потолка (сплошной камень) и
   surface_rule (bedrock) сохранены. Пещеры стали умеренными, как в обычном
   мире.
+- **Краш-фикс 2026-08-14**: первый вариант вставил в `final_density`
+  вложенный `minecraft:min` без `argument2` (лишняя обёртка) — краш
+  «No key argument2 in MapLike[...]» при загрузке noise_settings. Исправлено:
+  убран лишний вложенный min, осталась одна пара argument1/argument2.
 - **Do not**: НЕ возвращать `nether/base_3d_noise` как главную пещерную
   функцию; НЕ добавлять террейн-overworld (иначе появится поверхность).
 
