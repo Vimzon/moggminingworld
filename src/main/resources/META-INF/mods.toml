@@ -9,7 +9,7 @@ version="${mod_version}"
 displayName="Mogg Mining World"
 authors="Mogg"
 description='''Adds a separate Mining World dimension intended purely for ore mining.
-Stage 0: project skeleton only, no gameplay features yet.'''
+Stage 7: chunk pre-generation command (works with DimWorldBorder world borders).'''
 
 [[dependencies.moggminingworld]]
     modId="forge"
@@ -22,5 +22,12 @@ Stage 0: project skeleton only, no gameplay features yet.'''
     modId="minecraft"
     mandatory=true
     versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.moggminingworld]]
+    modId="dimensionalworldborder"
+    mandatory=false
+    versionRange="[1,)"
     ordering="NONE"
     side="BOTH"
